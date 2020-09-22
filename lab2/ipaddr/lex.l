@@ -4,8 +4,9 @@
 %}
 %option noyywrap
 
-v4 "WRITE YOUR REGULAR EXPRESSIONS HERE"
-v6 "ADD ANY SUB-PATTERNS AS YOU WANT"
+/* 0 or 一位数两位数 or 三位数1 or 三位数20 ~ 24 or 三位数25*/
+v4 ^((0|[1-9][0-9]?|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}(0|[1-9][0-9]?|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$
+v6 ^(([0-9a-fA-F]{1,4})\:){7}([0-9a-fA-F]{1,4})$
 
 %%
 {v4} { indicator = 4; }
