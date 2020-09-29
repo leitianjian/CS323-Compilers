@@ -30,15 +30,16 @@ def valid_parentheses(paren):
 with open('data.pickle', 'rb') as f:
     truematch, falsematch = pickle.load(f)
 
-for input_ in truematch:
-    if valid_parentheses(input_) != 1:
-        print('Wrong!')
-        print('Input: %s should be true' % input_)
-        exit(-1)
 for input_ in falsematch:
     if valid_parentheses(input_) != 0:
         print('Wrong!')
         print('Input: %s should be false' % input_)
         exit(-1)
+for input_ in truematch:
+    if valid_parentheses(input_) != 1:
+        print('Wrong!')
+        print('Input: %s should be true' % input_)
+        exit(-1)
+
 
 print('All tests passed!')
