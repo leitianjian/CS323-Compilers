@@ -22,8 +22,8 @@ Value:
     ;
 Object:
       LC RC
+    /* | LC Members COMMA error RC { puts("extra comma, recovered"); } */
     | LC Members RC
-    /* | LC Members COMMA RC error { puts("extra comma1, recovered"); } */
     /* | LC Members COMMA error { puts("comma instead if closing brace, recovered"); } */
     ;
 Members:
@@ -44,6 +44,7 @@ Array:
     ;
 Values:
       Value
+    | Value COMMA error { puts("extra comma(s), recovered"); }
     | Value COMMA Values
     ;
 %%
