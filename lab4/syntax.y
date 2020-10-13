@@ -10,6 +10,8 @@
 
 Json:
       Value
+    | Value RB error { puts("extra close, recovered"); }
+    | Value COMMA error { puts("comma after the close, recovered"); }
     ;
 Value:
       Object
@@ -19,37 +21,44 @@ Value:
     | TRUE
     | FALSE
     | VNULL
+    | Object STRING error { puts("misplaced quoted value, recovered"); }  // 为什么和31行有冲突？不是很理解
+    /* | Value RB error { puts("extra close"); } */
     ;
 Object:
       LC RC
-    /* | LC Members COMMA error RC { puts("extra comma, recovered"); } */
     | LC Members RC
-    /* | LC Members COMMA error { puts("comma instead if closing brace, recovered"); } */
+    | LC Values RC error { puts("comma instead of colon, recovered"); }
+    | LC Members Value RC error { puts("multiple value is not allowed, recovered"); }
     ;
 Members:
       Member
     | Member COMMA Members
+    | Member COMMA error { puts("extra comma, recovered"); }
+    /* | Member Value error { puts("multiple value is not allowed, recovered"); } */
     ;
 Member:
       STRING COLON Value
     | STRING COLON COLON Value error { puts("double colon, recovered"); }
     | STRING Value error { puts("missing colon, recovered"); }
-    | STRING COMMA Value error { puts("comma instead of colon, recovered"); }
     ;
 Array:
       LB RB
     | LB Values RB
     | LB Values RC error { puts("unmatched right bracket, recovered"); }
-    /* | LB Values COMMA RB error { puts("extra comma2, recovered"); } */
+    | LB Members RB error { puts("colon instead of comma, recovered"); }
+    | LB Values error { puts("unclosed array, recovered"); }
     ;
 Values:
       Value
-    | Value COMMA error { puts("extra comma(s), recovered"); }
     | Value COMMA Values
+    | Value COMMA error { puts("extra comma, recovered"); }
+    | Value COMMA COMMA error { puts("double extra comma, recovered"); }
+    | COMMA Value error { puts("missing value, recovered"); }
     ;
 %%
 
 void yyerror(const char *s){
+    /* printf("syntax error: must be recovered "); */
     printf("syntax error: ");
 }
 

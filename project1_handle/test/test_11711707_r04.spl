@@ -1,0 +1,5 @@
+struct abc {
+    int a,1b
+    float c,3d = 10.0
+    char _e,$ = '\xt0';
+};

@@ -1,0 +1,5 @@
+struct abc {
+    int a,b;
+    float c,d;
+    char e,f;
+};

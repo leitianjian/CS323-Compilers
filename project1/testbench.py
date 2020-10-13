@@ -7,19 +7,41 @@ DATA = pathlib.Path('data')
 
 
 def jsonparser_output(json_file):
-    out = subprocess.check_output(['./jp.out', json_file])
+    out = subprocess.check_output(['./p.out', json_file])
     return out.decode().strip()
 
 
-def check_jsonchecker_fail_withlexical():
-    data = DATA/'jsonchecker'
-    for failjson in data.glob('fail*.json'):
-        out = jsonparser_output(failjson)
-        if ('lexical error' not in out) or ('_EXCLUDE' in failjson.name):
+def check_flex_lexical():
+    data = DATA/'test_flex'
+    p, f = 0, 0
+    for src in data.glob('example*.spl'):
+        out = jsonparser_output(src)
+        if ('_EXCLUDE' in src.name):
             continue
-        print(f'For file {failjson.name}:')
+        if ('lexical error' in out):
+            f += 1
+        else:
+            p += 1
+        print(f'For file {src.name}:')
         print(out)
         print('-'*80)
+    print(f'Pass/Total: {p}/{p+f}')
+
+def check_output():
+    data = DATA/'test'
+    p, f = 0, 0
+    for src in data.glob('test_1_r01.spl'):
+        out = jsonparser_output(src)
+        if ('_EXCLUDE' in src.name):
+            continue
+        if ('lexical error' in out):
+            f += 1
+        else:
+            p += 1
+        print(f'For file {src.name}:')
+        print(out)
+        print('-'*80)
+    print(f'Pass/Total: {p}/{p+f}')
 
 
 def check_jsonchecker_fail_syntaxonly():
@@ -51,7 +73,8 @@ def check_pass():
         print(out)
 
 
-
+check_flex_lexical()
+check_output()
 # check_jsonchecker_fail_withlexical()
-check_jsonchecker_fail_syntaxonly()
-check_pass()
+# check_jsonchecker_fail_syntaxonly()
+# check_pass()

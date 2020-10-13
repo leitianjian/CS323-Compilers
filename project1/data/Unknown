@@ -1,0 +1,23 @@
+Error type A at Line 3: unknown lexeme 0x77G
+Error type A at Line 4: unknown lexeme 0xCS
+Error type A at Line 7: unknown lexeme '\x6u'
+Error type A at Line 8: unknown lexeme '\x910'
+
+Error type A at Line 7: unknown lexeme |
+Error type A at Line 8: unknown lexeme &
+
+Error type A at Line 4: unknown lexeme 3_wrong_id
+
+Error type A at Line 4: unknown lexeme $
+Error type B at Line 6: Missing semicolon ';'
+Error type A at Line 8: unknown lexeme @
+
+4
+Error type B at Line 9: Missing closing parenthesis ')'
+Error type B at Line 12: Missing closing parenthesis ')'
+
+8
+Error type B at Line 3: Missing semicolon ';'
+
+10
+Error type B at Line 4: Missing specifier
