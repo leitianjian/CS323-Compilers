@@ -28,7 +28,11 @@ Program (1)
               Exp (1)
                 ID: c
               ASSIGN
+<<<<<<< HEAD:project1_handle/test/test_11711707_r01.out
               Exp (1)
+=======
+              Exp (3)
+>>>>>>> upstream/master:project1/test/test_1_r01.out
                 CHAR: 'c'
             SEMI
           StmtList (1)
