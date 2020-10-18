@@ -36,5 +36,12 @@ VAL_T symtab_lookup(symtab*, char*);
 // remove a key-value pair from the table
 // if remove success, return 1, otherwise 0
 int symtab_remove(symtab*, char*);
+// void printTree(symtab *);
+
+// symtab *init_node_entry(entry*);
+// symtab *init_node_kvpair(char *, VAL_T);
+// symtab *tree_lookup(symtab *, char *);
+// int node_remove(symtab *);
+// symtab *find_left_most(symtab *);
 
 #endif  /* SYMTAB_H */

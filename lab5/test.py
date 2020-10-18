@@ -39,7 +39,9 @@ class SymbolTable(ctypes.Structure):
         key = self.safe_key(key)
         r = self.lib.symtab_remove(self.this, key)
         return int(r)
-
+    
+    def print_tree(self):
+        self.lib.printTree(self.this)
 
 class SymbolTableTest(unittest.TestCase):
     def setUp(self):
@@ -53,11 +55,37 @@ class SymbolTableTest(unittest.TestCase):
         self.assertEqual(st.lookup('20'), 20)
         self.assertEqual(st.insert('30', 30), 1)
         self.assertEqual(st.insert('10', 100), 0)
+        # print(1)
         st.remove('10')
+        # print(2)
         self.assertEqual(st.insert('10', 100), 1)
         self.assertEqual(st.lookup('10'), 100)
         self.assertEqual(st.remove('10'), 1)
         self.assertEqual(st.remove('10'), 0)
+
+    # def test_04(self):
+    #     st = SymbolTable()
+    #     st.insert('40', 10)
+    #     st.insert('20', 20)
+    #     st.insert('30', 20)
+    #     st.insert('10', 20)
+    #     st.insert('15', 20)
+    #     st.insert('60', 20)
+    #     st.insert('50', 20)
+    #     st.print_tree()
+    #     print("\n")
+    #     st.remove('40')
+    #     st.remove('30')
+    #     st.print_tree()
+    #     print("\n")
+    #     st.insert('40', 10)
+    #     st.insert('30', 20)
+    #     st.print_tree()
+    #     print("\n")
+        # self.assertEqual(st.insert('10', 100), 1)
+        # self.assertEqual(st.lookup('10'), 100)
+        # self.assertEqual(st.remove('10'), 1)
+        # self.assertEqual(st.remove('10'), 0)
 
     def test_02(self):
         st = SymbolTable()
@@ -88,10 +116,12 @@ class SymbolTableTest(unittest.TestCase):
             k = random.choice(ks)
             v = tab[k]
             self.assertEqual(st.lookup(k), v)
+        print("find " + str(st.lookup("UhQdSpif")))
 
         trial = random.randint(200, 400)
         for k in random.sample(ks, trial):
             del tab[k]
+            # print(k)
             self.assertEqual(st.remove(k), 1)
 
         trial = random.randint(400, 700)

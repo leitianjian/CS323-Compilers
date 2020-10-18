@@ -74,6 +74,10 @@ ExtDef:
           error = 1;
           SYNError("Missing semicolon ';'", @$.first_line);
       }
+    | ExtDecList error {
+        error = 1;
+        SYNError("Missing specifier", @$.first_line);
+    }
     ;
 ExtDecList:
       VarDec {
@@ -408,6 +412,7 @@ int main(int argc, char **argv){
             }
             out = fopen(out_name, "w");
             yyrestart(fp);
+            yydebug=1;
             yyparse();
             if(!error)
                 dfsPrint(root, 0);
