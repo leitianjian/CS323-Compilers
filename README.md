@@ -14,7 +14,9 @@ Coursework of SUSTech CS323-Compilers (2020fall)
 | Lab5 | Oct.13 | Maintaining symbol table | Project 2 release (due: Nov.15) |
 | Lab6 | Oct.20 | **LR parsing** & Type checking | |
 | Lab7 | Oct.27 | Scope checking | |
-| Lab8 | Nov.3 | (TBU) | |
+| Lab8 | Nov.3 | JSON key checker | There is a *quiz* in the lab! |
+| Lab9 | Nov.10 | | |
+| Lab10 | Nov.17 | | Project 3 release (due: Dec.13) |
 
 + The bold contents are theoretical sessions
 
