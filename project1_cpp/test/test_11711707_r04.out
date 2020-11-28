@@ -1,0 +1,6 @@
+Error type A at Line 2: Unknown lexeme 1b
+Error type B at Line 3: Missing semicolon ';'
+Error type A at Line 3: Unknown lexeme 3d
+Error type B at Line 4: Missing semicolon ';'
+Error type A at Line 4: Unknown lexeme $
+Error type A at Line 4: Unknown lexeme '\xt0'

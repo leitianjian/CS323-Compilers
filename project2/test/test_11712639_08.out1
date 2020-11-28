@@ -1,0 +1,33 @@
+Program (1)
+  ExtDefList (1)
+    ExtDef (1)
+      Specifier (1)
+        TYPE: int
+      FunDec (1)
+        ID: test
+        LP
+        RP
+      CompSt (1)
+        LC
+        StmtList (2)
+          Stmt (2)
+            Exp (2)
+              ID: func
+              LP
+              Args (2)
+                Exp (2)
+                  ID: func1
+                  LP
+                  Args (2)
+                    Exp (2)
+                      ID: a
+                  RP
+              RP
+            SEMI
+          StmtList (3)
+            Stmt (3)
+              RETURN
+              Exp (3)
+                INT: 1
+              SEMI
+        RC

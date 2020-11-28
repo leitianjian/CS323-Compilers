@@ -3,12 +3,14 @@
     #include"lex.yy.c"
     void yyerror(const char*);
 
-    bool is_valid = true;  // use this value
 %}
+%union{
+    char *string;
+}
 
 %token LC RC LB RB COLON COMMA
-%token STRING NUMBER
-%token TRUE FALSE VNULL
+%token <string> STRING 
+%token TRUE FALSE VNULL NUMBER
 %%
 
 Json:
@@ -24,15 +26,15 @@ Value:
     | VNULL
     ;
 Object:
-      LC RC
-    | LC Members RC
+      LC RC { pop(head); }
+    | LC Members RC { pop(head); }
     ;
 Members:
       Member
     | Member COMMA Members
     ;
 Member:
-      STRING COLON Value
+      STRING COLON Value { int result = insert_symbol(head, $1); if (!result) is_valid = 0; }
     ;
 Array:
       LB RB
@@ -44,7 +46,6 @@ Values:
     ;
 %%
 
-
 int main(int argc, char **argv){
     if(argc != 2) {
         fprintf(stderr, "Usage: %s <file_path>\n", argv[0]);
@@ -54,6 +55,7 @@ int main(int argc, char **argv){
         perror(argv[1]);
         exit(-1);
     }
+    head = symTab_init();
     yyparse();
     if(is_valid) {
         printf("%d\n", is_valid);

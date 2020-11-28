@@ -1,5 +1,8 @@
 %{
     #include"syntax.tab.h"
+    #include "SymTab.h"
+    SymTab* head;
+    int is_valid = 1;
 %}
 %option noyywrap
 
@@ -17,7 +20,7 @@ empty [ \n\r\t]
 
 %%
 
-"{" { return LC; }
+"{" { push(head); return LC; }
 "}" { return RC; }
 "[" { return LB; }
 "]" { return RB; }
@@ -28,7 +31,11 @@ empty [ \n\r\t]
 "false" { return FALSE; }
 "null" { return VNULL; }
 
-{string} { return STRING; }
+{string} {  
+    yylval.string = (char*)malloc(sizeof(char)*strlen(yytext));
+    strcpy(yylval.string,yytext);
+    return STRING; 
+}
 {number} { return NUMBER; }
 
 {empty} {}

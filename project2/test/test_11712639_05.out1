@@ -1,0 +1,196 @@
+Program (1)
+  ExtDefList (1)
+    ExtDef (1)
+      Specifier (1)
+        StructSpecifier (1)
+          STRUCT
+          ID: ST
+          LC
+          DefList (2)
+            Def (2)
+              Specifier (2)
+                TYPE: int
+              DecList (2)
+                Dec (2)
+                  VarDec (2)
+                    VarDec (2)
+                      VarDec (2)
+                        ID: arr
+                      LB
+                      INT: 4
+                      RB
+                    LB
+                    INT: 2
+                    RB
+                COMMA
+                DecList (2)
+                  Dec (2)
+                    VarDec (2)
+                      VarDec (2)
+                        ID: arr1
+                      LB
+                      INT: 4
+                      RB
+                  COMMA
+                  DecList (2)
+                    Dec (2)
+                      VarDec (2)
+                        ID: val1
+              SEMI
+          RC
+      SEMI
+    ExtDefList (5)
+      ExtDef (5)
+        Specifier (5)
+          StructSpecifier (5)
+            STRUCT
+            ID: ST
+        FunDec (5)
+          ID: test
+          LP
+          VarList (5)
+            ParamDec (5)
+              Specifier (5)
+                TYPE: int
+              VarDec (5)
+                ID: n
+          RP
+        CompSt (5)
+          LC
+          DefList (6)
+            Def (6)
+              Specifier (6)
+                StructSpecifier (6)
+                  STRUCT
+                  ID: ST
+              DecList (6)
+                Dec (6)
+                  VarDec (6)
+                    ID: s
+              SEMI
+            DefList (7)
+              Def (7)
+                Specifier (7)
+                  StructSpecifier (7)
+                    STRUCT
+                    ID: ST
+                DecList (7)
+                  Dec (7)
+                    VarDec (7)
+                      ID: s1
+                SEMI
+          StmtList (8)
+            Stmt (8)
+              IF
+              LP
+              Exp (8)
+                Exp (8)
+                  ID: n
+                LT
+                Exp (8)
+                  INT: 0
+              RP
+              Stmt (8)
+                CompSt (8)
+                  LC
+                  StmtList (9)
+                    Stmt (9)
+                      Exp (9)
+                        Exp (9)
+                          Exp (9)
+                            ID: s
+                          DOT
+                          ID: val1
+                        ASSIGN
+                        Exp (9)
+                          ID: n
+                      SEMI
+                    StmtList (10)
+                      Stmt (10)
+                        RETURN
+                        Exp (10)
+                          ID: s
+                        SEMI
+                  RC
+              ELSE
+              Stmt (11)
+                IF
+                LP
+                Exp (11)
+                  Exp (11)
+                    ID: n
+                  EQ
+                  Exp (11)
+                    INT: 0
+                RP
+                Stmt (11)
+                  CompSt (11)
+                    LC
+                    StmtList (12)
+                      Stmt (12)
+                        Exp (12)
+                          Exp (12)
+                            Exp (12)
+                              Exp (12)
+                                ID: s
+                              DOT
+                              ID: arr1
+                            LB
+                            Exp (12)
+                              INT: 0
+                            RB
+                          ASSIGN
+                          Exp (12)
+                            ID: n
+                        SEMI
+                      StmtList (13)
+                        Stmt (13)
+                          RETURN
+                          Exp (13)
+                            Exp (13)
+                              Exp (13)
+                                ID: s
+                              DOT
+                              ID: val1
+                            PLUS
+                            Exp (13)
+                              ID: s1
+                          SEMI
+                    RC
+                ELSE
+                Stmt (14)
+                  CompSt (14)
+                    LC
+                    StmtList (15)
+                      Stmt (15)
+                        Exp (15)
+                          Exp (15)
+                            Exp (15)
+                              Exp (15)
+                                Exp (15)
+                                  ID: s1
+                                DOT
+                                ID: arr
+                              LB
+                              Exp (15)
+                                INT: 0
+                              RB
+                            LB
+                            Exp (15)
+                              INT: 0
+                            RB
+                          ASSIGN
+                          Exp (15)
+                            INT: 0
+                        SEMI
+                      StmtList (16)
+                        Stmt (16)
+                          RETURN
+                          Exp (16)
+                            LP
+                            Exp (16)
+                              ID: s1
+                            RP
+                          SEMI
+                    RC
+          RC

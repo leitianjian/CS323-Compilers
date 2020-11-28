@@ -1,0 +1,2 @@
+Error type 11 at Line 0: applying function invocation operator (foo(...)) on non-function names
+Error type 8 at Line 16: function return type is not matched

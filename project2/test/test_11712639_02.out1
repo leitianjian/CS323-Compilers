@@ -1,0 +1,72 @@
+Program (1)
+  ExtDefList (1)
+    ExtDef (1)
+      Specifier (1)
+        StructSpecifier (1)
+          STRUCT
+          ID: ST
+          LC
+          DefList (2)
+            Def (2)
+              Specifier (2)
+                TYPE: int
+              DecList (2)
+                Dec (2)
+                  VarDec (2)
+                    VarDec (2)
+                      VarDec (2)
+                        ID: arr
+                      LB
+                      INT: 4
+                      RB
+                    LB
+                    INT: 2
+                    RB
+                COMMA
+                DecList (2)
+                  Dec (2)
+                    VarDec (2)
+                      VarDec (2)
+                        ID: arr1
+                      LB
+                      INT: 4
+                      RB
+                  COMMA
+                  DecList (2)
+                    Dec (2)
+                      VarDec (2)
+                        ID: val1
+              SEMI
+            DefList (3)
+              Def (3)
+                Specifier (3)
+                  StructSpecifier (3)
+                    STRUCT
+                    ID: Inner
+                    LC
+                    DefList (4)
+                      Def (4)
+                        Specifier (4)
+                          TYPE: float
+                        DecList (4)
+                          Dec (4)
+                            VarDec (4)
+                              ID: f
+                        SEMI
+                    RC
+                DecList (5)
+                  Dec (5)
+                    VarDec (5)
+                      VarDec (5)
+                        ID: inner1
+                      LB
+                      INT: 2
+                      RB
+                  COMMA
+                  DecList (5)
+                    Dec (5)
+                      VarDec (5)
+                        ID: inner2
+                SEMI
+          RC
+      SEMI
