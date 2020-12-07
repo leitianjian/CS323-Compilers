@@ -1,0 +1,17 @@
+Error type 6 at Line 7: rvalue on the left side of assignment operator
+Error type 5 at Line 7: unmatching type on both sides of assignment
+Error type 6 at Line 8: rvalue on the left side of assignment operator
+Error type 6 at Line 9: rvalue on the left side of assignment operator
+Error type 6 at Line 10: rvalue on the left side of assignment operator
+Error type 6 at Line 11: rvalue on the left side of assignment operator
+Error type 6 at Line 13: rvalue on the left side of assignment operator
+Error type 1 at Line 14: t variable is used without definition
+Error type 5 at Line 14: unmatching type on both sides of assignment
+Error type 6 at Line 16: rvalue on the left side of assignment operator
+Error type 6 at Line 17: rvalue on the left side of assignment operator
+Error type 7 at Line 19: unmatching operands for boolean operator
+Error type 5 at Line 19: unmatching type on both sides of assignment
+Error type 7 at Line 20: unmatching operands for boolean operator
+Error type 5 at Line 20: unmatching type on both sides of assignment
+Error type 7 at Line 21: unmatching operands for boolean operator
+Error type 5 at Line 21: unmatching type on both sides of assignment

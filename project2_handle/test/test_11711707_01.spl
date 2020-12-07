@@ -1,0 +1,19 @@
+struct ST{
+    int arr[4][2], arr1[4], val1;
+    struct Inner{
+        float f;
+        int arr1[4];
+    } inner1[2], inner2;
+} s;
+
+int main(){
+    s.arr2[3] = 2;
+    s.arr[2] = s.arr1;
+    s.arr1[2][1] = 1;
+    s.arr1[1] = 0;
+    s.val1 = 3.0;
+    s.arr1 = s.inner2.arr1;
+    s.arr1 = s.inner1[1].arr1;
+    s.val1 = s.inner2.f;
+    return 1;
+}

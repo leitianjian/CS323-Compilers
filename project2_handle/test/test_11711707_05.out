@@ -1,0 +1,9 @@
+Error type 1 at Line 2: a variable is used without definition
+Error type 2 at Line 2: test1 function is invoked without deﬁnition
+Error type 8 at Line 2: function return type is not matched
+Error type 9 at Line 7: the function’s arguments mismatch the declared parameters
+Error type 8 at Line 7: function return type is not matched
+Error type 9 at Line 9: the function’s arguments mismatch the declared parameters
+Error type 5 at Line 9: unmatching types on both sides of assignment operator (=)
+Error type 9 at Line 10: the function’s arguments mismatch the declared parameters
+Error type 8 at Line 10: function return type is not matched

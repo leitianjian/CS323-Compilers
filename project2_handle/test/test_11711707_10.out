@@ -1,0 +1,5 @@
+Error type 16 at Line 1: define a structure in return type
+Error type 17 at Line 6: undefined structure type
+Error type 5 at Line 6: unmatching type on both sides of assignment
+Error type 17 at Line 7: undefined structure type
+Error type 5 at Line 7: unmatching type on both sides of assignment

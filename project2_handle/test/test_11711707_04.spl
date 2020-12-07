@@ -1,0 +1,14 @@
+struct ST{
+};
+
+struct ST test(int n){
+    struct ST s;
+    struct ST s1;
+    if(n < 0){
+        return s;
+    }else if ( n == 0){
+        return s + s1;
+    }else{
+        return (s1);
+    }
+}

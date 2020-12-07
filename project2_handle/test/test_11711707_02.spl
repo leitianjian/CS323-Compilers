@@ -1,0 +1,8 @@
+int test(int c){
+    int cc = c, d, e[1];
+    float c;
+    c = 3.0;
+    d = 1;
+    e[0] = 0;
+    return 1;
+}
