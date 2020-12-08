@@ -31,8 +31,9 @@
     2. 读取到write函数，如果是常数，用新t生成常数再写入。如果是变量，就用对应生成的variable（注意function调用）
     
 ## Exp的实现（感觉超级麻烦）
-1. Exp1 Assign Exp2
-    （不考虑给数组或结构体赋值的情况）  
+1. Exp1 Assign Exp2 (not conditional)
+    （不考虑给数组或结构体赋值的情况） 
+    in: translate_Exp()
     ```c
     variable = symTab.lookup(Exp1.ID);
     ExpVisitor exp2.visit(Exp2);
@@ -46,6 +47,23 @@
     
     v1 := #1 + #2;
     ```
+    ```c
+    int a, i = 1;
+    a = i + 1;
+    
+    v1 = #1;
+    v2 = v1 + #1;
+    ```
+    哎呀，先不管这种最优的情况，先按照文档把通用的弄好
+    ```c
+    variable = symTab.lookup(Exp1.ID);
+    tp = new_t();
+    ExpVisitor exp2.translate_Exp(Exp2, tp);
+    appendCommand(variable.name := tp); // variable.name 就是v1
+    ```
+2. Exp AND Exp (conditional)
+    in: translate_cond_Exp(Exp, label_t, label_f)
+    
 
 ## Problem list:
 1. tags: 优化相关，实现相关
