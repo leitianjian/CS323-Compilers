@@ -1,5 +1,9 @@
 # Implementation notes
 
+## IR
+
+暂且先用string去存IR，先不管那么多，等optimization的时候再去考虑是不是要用更牛逼的
+
 ## Symbol table
 需要在运行的时候重新构建symbol table，而不是用sematic analyzer生成好的symbol table
 
@@ -27,11 +31,21 @@
     2. 读取到write函数，如果是常数，用新t生成常数再写入。如果是变量，就用对应生成的variable（注意function调用）
     
 ## Exp的实现（感觉超级麻烦）
-1. Exp Assign Exp  （不考虑给数组或结构体赋值的情况）
-        ```
-        variable = symTab.lookup(left_Exp.ID);
-        
-        ```
+1. Exp1 Assign Exp2
+    （不考虑给数组或结构体赋值的情况）  
+    ```c
+    variable = symTab.lookup(Exp1.ID);
+    ExpVisitor exp2.visit(Exp2);
+    appendCommand(variable.name := exp2.store_in); // variable.name 就是v1
+    this.store_in = exp2.store_in
+    ```
+    eg:
+    ```c
+    int a;
+    a = 1 + 2;
+    
+    v1 := #1 + #2;
+    ```
 
 ## Problem list:
 1. tags: 优化相关，实现相关
