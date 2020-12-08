@@ -19,8 +19,6 @@ struct EntryType {
         VARIABLE, STRUCTURE, FUNCTION
     } Type;
 };
-// enum DataType { INT, FLOAT, CHAR, ARRAY, STRUCTURE, UNKNOW };
-// enum EntryType { VARIABLE, STRUCTURE, FUNCTION };
 
 struct Variable 
 {
@@ -64,17 +62,9 @@ struct Structure
     Structure(std::string &name, SymTab *selfSymTab);
 };
 
-struct Array
-{
-    std::string m_name;
-    DataType::Type m_elementType;
-    int m_len;
-
-    Array();
-    ~Array();
-    Array(std::string &name, DataType::Type ele_type, int len);
-};
-
+/**
+ * The class will be stored in symbol table as value (key is a string name)
+*/
 class VAL_T
 {
 public:
@@ -91,6 +81,9 @@ public:
     DataType::Type getType();
 };
 
+/**
+ * Symbol table class
+*/
 class SymTab 
 {
 public:

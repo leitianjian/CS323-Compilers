@@ -251,6 +251,7 @@ class ExpVisitor: public NodeVisitor
 public:
     int m_isRvalue; // rvalue: INT CHAR FLOAT (Exp op Exp)
     DataType::Type m_retType;
+    SymTab *m_scope;
     VAL_T *m_expValue;
 
     ExpVisitor();

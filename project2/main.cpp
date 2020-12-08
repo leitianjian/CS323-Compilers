@@ -34,12 +34,12 @@ int main(int argc, char **argv) {
             SematicAnalyzer sa;
             sa.visit(interpreter.m_rootNode);
         }
-        std::string output1 = input.replace(input.find(".spl"), 5, ".out1");
-        ofstream onf;
-        onf.open(output1);
-        onf << res;
+        // std::string output1 = input.replace(input.find(".spl"), 5, ".out1");
+        // ofstream onf;
+        // onf.open(output1);
+        // onf << res;
         // std::cout << input << std::endl;
-        std::string output2 = input.replace(input.find(".out1"), 5, ".out2");
+        std::string output2 = input.replace(input.find(".spl"), 5, ".out");
         ofstream onf1;
         onf1.open(output2);
         onf1 << sematicErrorMsg;
@@ -48,15 +48,4 @@ int main(int argc, char **argv) {
     }
     
     return 0;
-    // inf.open("test_1_r05.spl");
-    // i.switchInputStream(&inf);
-    // int res = i.parse();
-
-    // std::string temp = i.str();
-    // if (temp.empty()) {
-    //     std::cout << "empty tree" << std::endl;
-    // }
-    // std::cout << temp << std::endl;
-    // std::cout << "Parse complete. Result = " << res << endl;
-    // return res;
 }

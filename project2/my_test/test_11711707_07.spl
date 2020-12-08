@@ -1,0 +1,14 @@
+int func1(int c) {
+    return c;
+}
+
+int func(int a, int b) {
+    return a + b;
+}
+
+int test() {
+    int a;
+    func(func1(a), func1(a));
+    func2(func3(b));
+    return 1;
+}

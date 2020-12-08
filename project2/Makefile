@@ -7,14 +7,15 @@ BISON=bison
 .syntax: parser.y
 	$(BISON) -o parser.cpp -d -v parser.y
 splc: .lex .syntax
-	# @mkdir bin
+	@mkdir bin
 	# touch bin/splc
 	# @chmod +x bin/splc
-	$(CC) --std=c++17 -g main.cpp scanner.cpp parser.cpp interpreter.cpp ASTNode.cpp SematicAnalyzer.cpp NodeVisitor.cpp SymTab.cpp -o a.out
+	$(CC) --std=c++17 -g main.cpp scanner.cpp parser.cpp interpreter.cpp ASTNode.cpp SematicAnalyzer.cpp NodeVisitor.cpp SymTab.cpp -o bin/splc
 clean:
 	rm -rf scanner.cpp
 	rm -rf parser.cpp parser.hpp location.hh position.hh stack.hh
 	rm -rf a.out
+	rm -rf bin/* *.output
 	# @rm -f lex.yy.c syntax.tab.* *.out bin/* *.output
 clean_out:
-	rm -f ./test/*.out ./test_ex/*.out
+	rm -f ./my_test/*.out*

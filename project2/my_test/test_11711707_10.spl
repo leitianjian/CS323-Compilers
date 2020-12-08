@@ -1,0 +1,9 @@
+struct test {
+    int a;
+    char c;
+} test (int d, char b) {
+    struct test t;
+    t.a = d;
+    t.c = b;
+    return t;
+}

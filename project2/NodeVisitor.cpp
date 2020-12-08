@@ -876,7 +876,8 @@ void DecVisitor::visit(ASTNode *node)
 ExpVisitor::ExpVisitor():
     m_isRvalue ( 0 ),
     m_retType ( DataType::UNKNOW ),
-    m_expValue ( nullptr )
+    m_expValue ( nullptr ),
+    m_scope ( nullptr )
 {}
 
 ExpVisitor::~ExpVisitor()
@@ -1126,17 +1127,29 @@ void ExpVisitor::visit(ASTNode *node)
             }
             VAL_T *structPtr;
             // structure (array indexing)
+            std::cout << value->m_valType << " " << value->m_val.index() << std::endl;
             if (value->m_val.index() == 1) {
                 Variable v = std::get<Variable>(value->m_val);
-                structPtr = currentScope->lookup(v.m_structName, 0); 
+                if (ev.m_scope == nullptr) {
+                    structPtr = currentScope->lookup(v.m_structName, 0); 
+                } else {
+                    structPtr = ev.m_scope->lookup(v.m_structName, 0);
+                }
             } else {
                 structPtr = value;
+            }
+            if (structPtr == nullptr) {
+                NodeVisitor::appendErrorMsg(17, node->m_row, "undefined structure type");
+                m_retType = DataType::UNKNOW;
+                m_isRvalue = 0;
+                return;
             }
             Structure s = std::get<Structure>(structPtr->m_val);
             VAL_T* idPtr = s.m_symTab->lookup(id, 1);
             if (idPtr != nullptr) {
                 std::cout << idPtr->getType() << std::endl;
                 m_expValue = idPtr;
+                m_scope = s.m_symTab;
                 m_isRvalue = 0;
                 m_retType = idPtr->getType();
             } else {
@@ -1219,6 +1232,7 @@ void ExpVisitor::visit(ASTNode *node)
 
             arrayVisitor.visit(arrayNode);
             indexVisitor.visit(index);
+            m_scope = arrayVisitor.m_scope;
 
             // indexing an non array variable
             if (arrayVisitor.m_retType != DataType::ARRAY) {
@@ -1242,7 +1256,11 @@ void ExpVisitor::visit(ASTNode *node)
                 m_retType = array.m_eleType;
                 m_isRvalue = 0;
                 if (m_retType == DataType::STRUCTURE) {
-                    m_expValue = currentScope->lookup(array.m_structName, 0);
+                    if (m_scope != nullptr) {
+                        m_expValue = m_scope->lookup(array.m_structName, 0);
+                    } else {
+                        m_expValue = currentScope->lookup(array.m_structName, 0);
+                    }
                 }
                 return;
             }

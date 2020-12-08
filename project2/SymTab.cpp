@@ -102,21 +102,6 @@ Structure::~Structure ()
 {}
 
 /**
- * Array node implement section
-*/
-Array::Array ()
-{}
-
-Array::Array(std::string &name, DataType::Type ele_type, int len):
-    m_name ( name ),
-    m_elementType ( ele_type ),
-    m_len ( len )
-{}
-
-Array::~Array ()
-{}
-
-/**
  * Symbol Table entry implement section
 */
 VAL_T::VAL_T ()
@@ -205,8 +190,9 @@ int SymTab::insert (std::string &key, VAL_T &val)
 
 VAL_T *SymTab::lookup (std::string &key, int current_scope_only)
 {
-    if (m_table.find(key) != m_table.end()){
-        return &m_table[key];
+    auto ele = m_table.find(key);
+    if (ele != m_table.end()){
+        return &ele->second;
     } 
 
     if (current_scope_only == 1) {
