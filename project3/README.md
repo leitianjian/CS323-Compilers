@@ -1,5 +1,8 @@
 # Implementation notes
 
+## Symbol table
+需要在运行的时候重新构建symbol table，而不是用sematic analyzer生成好的symbol table
+
 ## t v Problem
 1. 需要保存全局的state来控制t v的后缀数大小，避免重复
 2. hash map以operator为key，以对应的t为value，方便查找一样的值
@@ -24,11 +27,11 @@
     2. 读取到write函数，如果是常数，用新t生成常数再写入。如果是变量，就用对应生成的variable（注意function调用）
     
 ## Exp的实现（感觉超级麻烦）
-
-    
-
-
-
+1. Exp Assign Exp  （不考虑给数组或结构体赋值的情况）
+        ```
+        variable = symTab.lookup(left_Exp.ID);
+        
+        ```
 
 ## Problem list:
 1. tags: 优化相关，实现相关
