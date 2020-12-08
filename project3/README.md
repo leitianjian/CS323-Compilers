@@ -30,14 +30,14 @@
     1. 读取到read函数，使用新t接受读取，生成对应的key value插入op表
     2. 读取到write函数，如果是常数，用新t生成常数再写入。如果是变量，就用对应生成的variable（注意function调用）
     
-## Exp的实现（感觉超级麻烦）
+## Exp的实现（感觉超级麻烦）文档已经列出了一大部分了
 1. Exp1 Assign Exp2 (not conditional)
     （不考虑给数组或结构体赋值的情况） 
-    in: translate_Exp()
+    in: translate_Exp(Exp, place)
     ```c
     variable = symTab.lookup(Exp1.ID);
     ExpVisitor exp2.visit(Exp2);
-    appendCommand(variable.name := exp2.store_in); // variable.name 就是v1
+    appendCode("variable.name := exp2.store_in"); // variable.name 就是v1
     this.store_in = exp2.store_in
     ```
     eg:
@@ -59,7 +59,8 @@
     variable = symTab.lookup(Exp1.ID);
     tp = new_t();
     ExpVisitor exp2.translate_Exp(Exp2, tp);
-    appendCode(variable.name := tp); // variable.name 就是v1
+    appendCode("variable.name := tp"); // variable.name 就是v1
+    appendCode("place := variable.name");
     ```
 2. Exp1 AND Exp2 (conditional)
     in: translate_cond_Exp(Exp, label_t, label_f)
@@ -92,6 +93,41 @@
     appendCode(code_exp2)
     appendCode("IF t1 < t2 GOTO label_t")
     appendCode("GOTO label_f")
+    ```
+5. Exp1 PLUS Exp2 (non-conditional) MUL DIV MINUS
+    in: translate_Exp(Exp, place)
+    ```c
+    t1 = new_t()
+    t2 = new_t()
+    code_exp1 = translate_exp(Exp1, t1);
+    code_exp2 = translate_exp(Exp2, t2);
+    appendCode(code_exp1)
+    appendCode(code_exp2)
+    appendCode("place := t1 + t2")
+    ```
+6. LP Exp RP (non-conditional / conditional)
+    in: translate_Exp(Exp, place)  
+        translate_cond_Exp(Exp, label_t, label_f)
+    ```c
+    translate_Exp(Exp, place):
+        translate_Exp(Exp, place)
+    
+    translate_cond_Exp(Exp, label_t, label_f):
+        translate_Exp(Exp, label_t, label_f)
+    ```
+        
+7. MINUS Exp (non-conditional)
+    in: translate_Exp(Exp, place)
+    ```c
+    tp = new_t();
+    code_exp = translate_Exp(Exp, tp);
+    appendCode(code_exp);
+    appendCode("place := #0 - tp")
+    ```
+8. NOT Exp (conditional)
+    in: translate_cond_Exp(Exp, label_t, label_f)
+    ```c
+    translate_cond_Exp(Exp, label_f, label_t);
     ```
 
 ## Problem list:
