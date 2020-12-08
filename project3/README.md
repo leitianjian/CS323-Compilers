@@ -59,11 +59,40 @@
     variable = symTab.lookup(Exp1.ID);
     tp = new_t();
     ExpVisitor exp2.translate_Exp(Exp2, tp);
-    appendCommand(variable.name := tp); // variable.name 就是v1
+    appendCode(variable.name := tp); // variable.name 就是v1
     ```
-2. Exp AND Exp (conditional)
+2. Exp1 AND Exp2 (conditional)
     in: translate_cond_Exp(Exp, label_t, label_f)
-    
+    ```c
+    label_1 = new_label()
+    code_exp1 = translate_cond_Exp(Exp1, label_1, label_f)
+    appendCode(code_exp1)
+    appendCode("LABEL label_1")
+    code_exp2 = translate_cond_Exp(Exp2, label_t, label_f)
+    appendCode(code_exp2)
+    ```
+3. Exp1 OR Exp2 (conditional)
+    in: translate_cond_Exp(Exp, label_t, label_f)
+    ```c
+    label_1 = new_label()
+    code_exp1 = translate_cond_Exp(Exp1, label_t, label_1)
+    appendCode(code_exp1)
+    appendCode("LABEL label_1")
+    code_exp2 = translate_cond_Exp(Exp2, label_t, label_f)
+    appendCode(code_exp2)
+    ```
+4. Exp1 LT Exp2 (conditional) LE GE GT NE EQ
+    in: translate_cond_Exp(Exp, label_t, label_f)
+    ```c
+    t1 = new_t();
+    t2 = new_t();
+    code_exp1 = translate_exp(Exp1, t1);
+    code_exp2 = translate_exp(Exp2, t2);
+    appendCode(code_exp1)
+    appendCode(code_exp2)
+    appendCode("IF t1 < t2 GOTO label_t")
+    appendCode("GOTO label_f")
+    ```
 
 ## Problem list:
 1. tags: 优化相关，实现相关
