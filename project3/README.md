@@ -129,6 +129,38 @@
     ```c
     translate_cond_Exp(Exp, label_f, label_t);
     ```
+9. ID LP Args RP (function call) ID LP RP
+    in: translate_Exp(Exp, place)
+    ```c
+    // ID LP Args RP
+    Check if function is in symbol table
+    function = symTab.lookup(ID)
+    arg_list = []
+    code_args = translate_Args(Args, arg_list)
+    appendCode(code_args)
+    
+    for i = 1 to arg_list.length:
+        appendCode("ARG arg_list[i]")
+    
+    appendCode("place := CALL function.name")
+    
+    // ID LP RP
+    function = symTab.lookup(ID)
+    appendCode("place := CALL function.name")
+    ```
+
+10. READ LP RP (pre-defined function) WRITE LP Exp RP
+    in: translate_Exp(Exp, place)
+    ```c
+    // READ LP RP
+    appendCode("READ place");
+    
+    // WRITE LP Exp RP
+    tp = new_t();
+    code_exp = translate_Exp(Exp, tp)
+    appendCode(code_exp)
+    appendCode("WRITE tp")
+    ```
 
 ## Problem list:
 1. tags: 优化相关，实现相关
