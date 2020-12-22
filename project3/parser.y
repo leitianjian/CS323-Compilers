@@ -71,6 +71,7 @@
 %token <Compiler::ASTNode*> FLOAT
 %token <Compiler::ASTNode*> WHILE TYPE
 %token <Compiler::ASTNode*> IF ELSE RETURN UNKNOW
+/* %token <Compiler::ASTNode*> READ WRITE */
 
 %type  <Compiler::ASTNode*> Program ExtDefList ExtDef ExtDecList
 %type  <Compiler::ASTNode*> Specifier StructSpecifier 
@@ -411,6 +412,14 @@ Exp:
           $$ = new ASTNode("Exp", @$.begin.line);
           $$->addChild(3, $1, $2, $3);
       }
+    /* | READ LP RP {
+          $$ = new ASTNode("Exp", @$.begin.line);
+          $$->addChild(3, $1, $2, $3);
+      }
+    | WRITE LP Exp RP {
+          $$ = new ASTNode("Exp", @$.begin.line);
+          $$->addChild(4, $1, $2, $3);
+      } */
     | Exp LB Exp RB {
           $$ = new ASTNode("Exp", @$.begin.line);
           $$->addChild(4, $1, $2, $3, $4);

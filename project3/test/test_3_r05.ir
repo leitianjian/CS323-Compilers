@@ -1,0 +1,70 @@
+FUNCTION main :
+v5 := #1
+t0 := v5
+v6 := #2
+t1 := v6
+v7 := #3
+t2 := v7
+v1 := #1
+t3 := v1
+v2 := #1
+t4 := v2
+READ v4
+t5 := v4
+t6 := v4
+t7 := #1
+IF t6 < t7 GOTO lb_0
+GOTO lb_1
+LABEL lb_0 :
+t9 := #0
+WRITE t9
+GOTO lb_2
+LABEL lb_1 :
+t10 := v4
+t11 := #1
+IF t10 == t11 GOTO lb_3
+GOTO lb_6
+LABEL lb_6 :
+t12 := v4
+t13 := #2
+IF t12 == t13 GOTO lb_3
+GOTO lb_4
+LABEL lb_3 :
+t15 := #1
+WRITE t15
+GOTO lb_5
+LABEL lb_4 :
+t16 := v4
+t17 := #2
+IF t16 > t17 GOTO lb_7
+GOTO lb_8
+LABEL lb_7 :
+v0 := #3
+t18 := v0
+LABEL lb_9 :
+t19 := v0
+t20 := v4
+IF t19 <= t20 GOTO lb_10
+GOTO lb_11
+LABEL lb_10 :
+t22 := v1
+t23 := v2
+v3 := t22 + t23
+t21 := v3
+v1 := v2
+t24 := v1
+v2 := v3
+t25 := v2
+t27 := v0
+t28 := #1
+v0 := t27 + t28
+t26 := v0
+GOTO lb_9
+LABEL lb_11 :
+t30 := v3
+WRITE t30
+LABEL lb_8 :
+LABEL lb_5 :
+LABEL lb_2 :
+t31 := #0
+RETURN t31

@@ -1,0 +1,57 @@
+FUNCTION main :
+v0 := #30
+v1 := #0
+v2 := #1
+v3 := #1
+LABEL lb_0 :
+t0 := v3
+t1 := v0
+IF t0 <= t1 GOTO lb_1
+GOTO lb_2
+LABEL lb_1 :
+LABEL lb_3 :
+t2 := v2
+t3 := v3
+IF t2 <= t3 GOTO lb_4
+GOTO lb_5
+LABEL lb_4 :
+t4 := v3
+t8 := v3
+t9 := v2
+t6 := t8 / t9
+t7 := v2
+t5 := t6 * t7
+IF t4 == t5 GOTO lb_6
+GOTO lb_7
+LABEL lb_6 :
+t11 := v1
+t12 := #1
+v1 := t11 + t12
+t10 := v1
+LABEL lb_7 :
+t14 := v2
+t15 := #1
+v2 := t14 + t15
+t13 := v2
+GOTO lb_3
+LABEL lb_5 :
+t16 := v1
+t17 := #2
+IF t16 == t17 GOTO lb_8
+GOTO lb_9
+LABEL lb_8 :
+t19 := v3
+WRITE t19
+LABEL lb_9 :
+v2 := #1
+t20 := v2
+v1 := #0
+t21 := v1
+t23 := v3
+t24 := #1
+v3 := t23 + t24
+t22 := v3
+GOTO lb_0
+LABEL lb_2 :
+t25 := #0
+RETURN t25

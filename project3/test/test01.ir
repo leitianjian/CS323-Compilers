@@ -1,0 +1,28 @@
+FUNCTION main :
+READ v0
+t0 := v0
+t1 := v0
+t2 := #0
+IF t1 > t2 GOTO lb_0
+GOTO lb_1
+LABEL lb_0 :
+t4 := #1
+WRITE t4
+GOTO lb_2
+LABEL lb_1 :
+t5 := v0
+t6 := #0
+IF t5 < t6 GOTO lb_3
+GOTO lb_4
+LABEL lb_3 :
+t9 := #1
+t8 := #0 - t9
+WRITE t8
+GOTO lb_5
+LABEL lb_4 :
+t11 := #0
+WRITE t11
+LABEL lb_5 :
+LABEL lb_2 :
+t12 := #0
+RETURN t12

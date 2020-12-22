@@ -1,9 +1,12 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include "scanner.h"
 #include "parser.hpp"
 #include "interpreter.h"
 #include "SematicAnalyzer.h"
+#include "ICG.h"
+
 namespace Compiler {
     SymTab *currentScope = new SymTab(0);
     std::string sematicErrorMsg;
@@ -26,20 +29,31 @@ int main(int argc, char **argv) {
         interpreter.switchInputStream(&inf);
         interpreter.parse();
         std::string res;
-        // we have assume AST tree builder and Sematic Analyzer will not report error
-        res = interpreter.str();
-        std::cout << res;
-        SematicAnalyzer sa;
-        sa.visit(interpreter.m_rootNode);
+        std::stringstream intermediate_code;
+        if (interpreter.errorFlag() == 1) {
+            res = interpreter.errorMsg();
+        } else {
+            res = interpreter.str();
+            std::cout << res;
+            // SematicAnalyzer sa;
+            // sa.visit(interpreter.m_rootNode);
+            ICG codeGenerator = ICG();
+            codeGenerator.translate_Program(interpreter.m_rootNode);
+
+            for (Instruction s: codeGenerator.m_genCodes){
+                intermediate_code << s.m_instruction << std::endl;
+                std::cout << s.m_instruction << std::endl;
+            }
+        }
         // std::string output1 = input.replace(input.find(".spl"), 5, ".out1");
         // ofstream onf;
         // onf.open(output1);
         // onf << res;
         // std::cout << input << std::endl;
-        std::string output2 = input.replace(input.find(".spl"), 5, ".out");
+        std::string output2 = input.replace(input.find(".spl"), 5, ".ir");
         ofstream onf1;
         onf1.open(output2);
-        onf1 << sematicErrorMsg;
+        onf1 << intermediate_code.str();
         sematicErrorMsg = "";
         currentScope = new SymTab(0);
     }
