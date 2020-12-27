@@ -5,6 +5,7 @@
 #include "parser.hpp"
 #include "interpreter.h"
 #include "SematicAnalyzer.h"
+#include "CodeOptimizer.hpp"
 #include "ICG.h"
 
 namespace Compiler {
@@ -39,10 +40,20 @@ int main(int argc, char **argv) {
             // sa.visit(interpreter.m_rootNode);
             ICG codeGenerator = ICG();
             codeGenerator.translate_Program(interpreter.m_rootNode);
+            CodeOptimizer co = CodeOptimizer(codeGenerator.m_genCodes);
+            co.print_blocks();
+            co.optimize();
+            // for (Instruction s: codeGenerator.m_genCodes){
+            //     // intermediate_code << s.m_instruction << std::endl;
+            //     intermediate_code << s.to_string() << std::endl;
+            //     // 
 
-            for (Instruction s: codeGenerator.m_genCodes){
-                intermediate_code << s.m_instruction << std::endl;
-                std::cout << s.m_instruction << std::endl;
+            //     // std::cout << s.m_instruction << std::endl;
+            // }
+            Instruction *ptr = co.m_entry->m_next_ins;
+            while (ptr != nullptr) {
+                intermediate_code << ptr->to_string() << std::endl;
+                ptr = ptr->m_next_ins;
             }
         }
         // std::string output1 = input.replace(input.find(".spl"), 5, ".out1");

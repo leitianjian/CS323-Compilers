@@ -1,40 +1,16 @@
 FUNCTION main :
-v3 := #0
-v0 := #5
-t0 := v0
-t4 := v0
-t5 := v0
-t2 := t4 * t5
-t6 := v0
-t7 := #2
-t3 := t6 + t7
+t2 := #5 * #5
+t3 := #5 + #2
 v1 := t2 * t3
-t1 := v1
-t9 := v1
-WRITE t9
-t13 := v1
-t14 := v0
-t11 := t13 / t14
-t12 := #1
-v2 := t11 + t12
-t10 := v2
-t16 := v2
-WRITE t16
-t22 := v0
-t23 := v1
-t20 := t22 + t23
-t24 := v2
-t25 := #3
-t21 := t24 * t25
+WRITE v1
+t11 := v1 / #5
+v2 := t11 + #1
+WRITE v2
+t20 := #5 + v1
+t21 := v2 * #3
 t18 := t20 - t21
-t28 := v1
-t29 := v0
-t26 := t28 / t29
-t27 := #4
-t19 := t26 - t27
+t26 := v1 / #5
+t19 := t26 - #4
 v3 := t18 + t19
-t17 := v3
-t31 := v3
-WRITE t31
-t32 := #0
-RETURN t32
+WRITE v3
+RETURN #0

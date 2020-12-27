@@ -5,44 +5,10 @@
 #include <iostream>
 #include <unordered_map>
 #include "ASTNode.h"
+#include "instruction.h"
 
 namespace Compiler
 {
-
-class Instruction
-{
-public:
-    std::string m_instruction;
-
-    Instruction();
-    ~Instruction();
-    Instruction(const std::string &instruction);
-};
-
-class V
-{
-public:
-    int m_isTemp;
-    int m_count;
-
-    std::string m_name;
-
-    V();
-    ~V();
-    V(int count);
-    V(int count, int is_temp);
-};
-
-class Label
-{
-public:
-    int m_count;
-    std::string m_labelName;
-
-    Label();
-    ~Label();
-    Label(int count);
-};
 
 class ICG
 {
@@ -62,6 +28,7 @@ public:
     void appendCode(Instruction &instruction);
     void appendCode(const std::string &instruction);
     std::string get_variable_from_dict(const std::string &v_name);
+    int get_v_count_from_dict(const std::string &v_name);
     void register_variable(const std::string &name, int v_n);
 
     int judge_condition_exp(ASTNode *exp);
@@ -87,6 +54,7 @@ public:
     void translate_cond_Exp(ASTNode *exp, Label lb_true, Label lb_false);
     std::vector<V> translate_Args(ASTNode *args);
     std::string translate_token(std::string token);
+    OpType::Type token_to_opType(std::string token);
 };
 
 }

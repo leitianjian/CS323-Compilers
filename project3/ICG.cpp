@@ -3,54 +3,6 @@
 using namespace Compiler;
 
 /**
- * Instruction section
-*/
-Instruction::Instruction()
-{}
-
-Instruction::~Instruction()
-{}
-
-Instruction::Instruction(const std::string &instruction):
-    m_instruction ( instruction )
-{}
-
-/**
- * Variable section
-*/
-V::V()
-{}
-
-V::~V()
-{}
-
-V::V(int count):
-    m_isTemp ( 0 ),
-    m_count ( count ),
-    m_name ( "v" + std::to_string(count) )
-{}
-
-V::V(int count, int is_temp):
-    m_isTemp ( is_temp ),
-    m_count ( count ),
-    m_name ( ((is_temp) ? "t" : "v") + std::to_string(count) )
-{}
-
-/**
- * Label section
-*/
-Label::Label()
-{}
-
-Label::~Label()
-{}
-
-Label::Label(int count):
-    m_count ( count ),
-    m_labelName ( "lb_" + std::to_string(count) )
-{}
-
-/**
  * Intermediate code generator
 */
 ICG::ICG()
@@ -86,7 +38,7 @@ void ICG::appendCode(Instruction &ins)
 
 void ICG::appendCode(const std::string &ins)
 {
-    m_genCodes.push_back(Instruction(ins));
+    // m_genCodes.push_back(Instruction(ins));
 }
 
 void ICG::register_variable(const std::string &name, int v_n)
@@ -212,11 +164,15 @@ void ICG::translate_FuncDec(ASTNode *funcDec)
 {
     std::cout << "visit funcDec node" << std::endl;
     if (funcDec->m_childCount == 3) {
+        Instruction i = Instruction(OpType::FUNC, funcDec->m_child->m_value);
+        appendCode(i);
         appendCode("FUNCTION " + funcDec->m_child->m_value + " :");
         return;
     }
 
     if (funcDec->m_childCount == 4) {
+        Instruction i = Instruction(OpType::FUNC, funcDec->m_child->m_value);
+        appendCode(i);
         appendCode("FUNCTION " + funcDec->m_child->m_value + " :");
         std::vector<V> vl = translate_VarList(funcDec->m_child->m_sibling->m_sibling);
         
@@ -225,6 +181,8 @@ void ICG::translate_FuncDec(ASTNode *funcDec)
         std::vector<V>::iterator iter = vl.begin();
         for (; iter != vl.end(); ++iter)
         {
+            Instruction i = Instruction(OpType::PARAM, *iter);
+            appendCode(i);
             appendCode("PARAM " + iter->m_name);
         }
         return;
@@ -315,6 +273,8 @@ void ICG::translate_Stmt(ASTNode *stmt)
         ASTNode *exp = stmt->m_child->m_sibling;
         V t = new_temp_variable();
         translate_Exp(exp, t);
+        Instruction i = Instruction(OpType::RET, t);
+        appendCode(i);
         appendCode("RETURN " + t.m_name);
     }
 
@@ -327,12 +287,27 @@ void ICG::translate_Stmt(ASTNode *stmt)
             Label lb1 = new_label();
             Label lb2 = new_label();
             Label lb3 = new_label();
+
+            Instruction i = Instruction(OpType::LABEL, lb1.m_labelName);
+            appendCode(i);
             appendCode("LABEL " + lb1.m_labelName + " :");
+
             translate_cond_Exp(exp, lb2, lb3);
+
+            i = Instruction(OpType::LABEL, lb2.m_labelName);
+            appendCode(i);
             appendCode("LABEL " + lb2.m_labelName + " :");
+
             translate_Stmt(c_stmt);
+
+            i = Instruction(OpType::JUMP, lb1);
+            appendCode(i);
             appendCode("GOTO " + lb1.m_labelName);
+
+            i = Instruction(OpType::LABEL, lb3.m_labelName);
+            appendCode(i);
             appendCode("LABEL " + lb3.m_labelName + " :");
+
             return;
         }
 
@@ -344,8 +319,15 @@ void ICG::translate_Stmt(ASTNode *stmt)
             Label lb1 = new_label();
             Label lb2 = new_label();
             translate_cond_Exp(exp, lb1, lb2);
+
+            Instruction i = Instruction(OpType::LABEL, lb1.m_labelName);
+            appendCode(i);
             appendCode("LABEL " + lb1.m_labelName + " :");
+
             translate_Stmt(c_stmt);
+
+            i = Instruction(OpType::LABEL, lb2.m_labelName);
+            appendCode(i);
             appendCode("LABEL " + lb2.m_labelName + " :");
             return;
         }
@@ -362,11 +344,25 @@ void ICG::translate_Stmt(ASTNode *stmt)
         Label lb3 = new_label();
 
         translate_cond_Exp(exp, lb1, lb2);
+
+        Instruction i = Instruction(OpType::LABEL, lb1.m_labelName);
+        appendCode(i);
         appendCode("LABEL " + lb1.m_labelName + " :");
+
         translate_Stmt(stmt1);
+
+        i = Instruction(OpType::JUMP, lb3);
+        appendCode(i);
         appendCode("GOTO " + lb3.m_labelName);
+
+        i = Instruction(OpType::LABEL, lb2.m_labelName);
+        appendCode(i);
         appendCode("LABEL " + lb2.m_labelName + " :");
+
         translate_Stmt(stmt2);
+
+        i = Instruction(OpType::LABEL, lb3.m_labelName);
+        appendCode(i);        
         appendCode("LABEL " + lb3.m_labelName + " :");
         return;
     }
@@ -457,6 +453,16 @@ std::string ICG::get_variable_from_dict(const std::string &v_name)
     }
 }
 
+int ICG::get_v_count_from_dict(const std::string &v_name)
+{
+    auto ele = m_variable_dict.find(v_name);
+    if (ele != m_variable_dict.end()){
+        return ele->second;
+    } else {
+        std::cout << "translator not find variable in dictionary, error!" << std::endl;
+    }
+}
+
 std::vector<V> ICG::translate_Args(ASTNode *args)
 {
     std::cout << "visit args node" << std::endl;
@@ -504,6 +510,8 @@ void ICG::translate_cond_Exp(ASTNode *exp, Label lb_true, Label lb_false)
             ASTNode *exp2 = exp->m_child->m_sibling->m_sibling;
             Label lb1 = new_label();
             translate_cond_Exp(exp1, lb1, lb_false);
+            Instruction i = Instruction(OpType::LABEL, lb1.m_labelName);
+            appendCode(i);
             appendCode("LABEL " + lb1.m_labelName + " :");
             translate_cond_Exp(exp2, lb_true, lb_false);
             return;
@@ -517,6 +525,8 @@ void ICG::translate_cond_Exp(ASTNode *exp, Label lb_true, Label lb_false)
             ASTNode *exp2 = exp->m_child->m_sibling->m_sibling;
             Label lb1 = new_label();
             translate_cond_Exp(exp1, lb_true, lb1);
+            Instruction i = Instruction(OpType::LABEL, lb1.m_labelName);
+            appendCode(i);
             appendCode("LABEL " + lb1.m_labelName + " :");
             translate_cond_Exp(exp2, lb_true, lb_false);
             return;
@@ -535,7 +545,12 @@ void ICG::translate_cond_Exp(ASTNode *exp, Label lb_true, Label lb_false)
 
             translate_Exp(exp1, t1);
             translate_Exp(exp2, t2);
+            Instruction i = Instruction(op, t1, t2, lb_true);
+            appendCode(i);
             appendCode("IF " + t1.m_name + " " + op + " " + t2.m_name + " GOTO " + lb_true.m_labelName);
+            
+            i = Instruction(OpType::JUMP, lb_false);
+            appendCode(i);
             appendCode("GOTO " + lb_false.m_labelName);
             return;
         }
@@ -595,6 +610,8 @@ void ICG::translate_Exp(ASTNode *exp, const V &place)
         if (exp->m_child->m_type.compare("INT") == 0)
         {
             int value = std::stoi(exp->m_child->m_value);
+            Instruction i = Instruction(OpType::ASSI, value, place);
+            appendCode(i);
             appendCode(place.m_name + " := #" + exp->m_child->m_value);
             return;
         }
@@ -602,6 +619,8 @@ void ICG::translate_Exp(ASTNode *exp, const V &place)
         if (exp->m_child->m_type.compare("ID") == 0) // 这个时候对应表中应该一定能查到，因为前面有declare
         {
             std::string v_name = exp->m_child->m_value;
+            Instruction i = Instruction(OpType::ASSI, V(get_v_count_from_dict(v_name)), place);
+            appendCode(i);
             appendCode(place.m_name + " := " + get_variable_from_dict(v_name));
             return;
         }
@@ -614,6 +633,9 @@ void ICG::translate_Exp(ASTNode *exp, const V &place)
             ASTNode *c_exp = exp->m_child->m_sibling;
             V t = new_temp_variable();
             translate_Exp(c_exp, t);
+
+            Instruction i = Instruction(OpType::MINUS, 0, t, place);
+            appendCode(i);
             appendCode(place.m_name + " := #0 - " + t.m_name);
             return;
         }
@@ -635,6 +657,8 @@ void ICG::translate_Exp(ASTNode *exp, const V &place)
                 std::string name = exp_l->m_child->m_value;
                 V v = new_variable(m_variable_dict[name]);
                 translate_Exp(exp_r, v);
+                Instruction i = Instruction(OpType::ASSI, v, place);
+                appendCode(i);
                 appendCode(place.m_name + " := " + v.m_name);
                 return;
             }
@@ -651,6 +675,8 @@ void ICG::translate_Exp(ASTNode *exp, const V &place)
             V t2 = new_temp_variable();
             translate_Exp(exp_l, t1);
             translate_Exp(exp_r, t2);
+            Instruction i = Instruction(token_to_opType(exp->m_child->m_sibling->m_type), t1, t2, place);
+            appendCode(i);
             appendCode(place.m_name + " := " + 
                        t1.m_name + " " +
                        translate_token(exp->m_child->m_sibling->m_type) + 
@@ -676,8 +702,12 @@ void ICG::translate_Exp(ASTNode *exp, const V &place)
         {
             // READ function
             if (exp->m_child->m_value.compare("read") == 0) {
+                Instruction i = Instruction(OpType::READ, place);
+                appendCode(i);
                 appendCode("READ " + place.m_name);
             } else {
+                Instruction i = Instruction(OpType::CALL, exp->m_child->m_value, place);
+                appendCode(i);
                 appendCode(place.m_name + " := CALL " + exp->m_child->m_value);
             }
         }
@@ -695,13 +725,19 @@ void ICG::translate_Exp(ASTNode *exp, const V &place)
             if (exp->m_child->m_value.compare("write") == 0) {
                 V t1 = new_temp_variable();
                 translate_Exp(args->m_child, t1);
+                Instruction ins = Instruction(OpType::WRITE, t1);
+                appendCode(ins);
                 appendCode("WRITE " + t1.m_name);
             } else {
                 std::vector<V> arg_list = translate_Args(args);
                 int len = arg_list.size();
                 for (int i = len - 1; i >= 0; -- i) {
+                    Instruction ins = Instruction(OpType::ARG, arg_list[i]);
+                    appendCode(ins);
                     appendCode("ARG " + arg_list[i].m_name);
                 }
+                Instruction i = Instruction(OpType::CALL, exp->m_child->m_value, place);
+                appendCode(i);
                 appendCode(place.m_name + " := CALL " + exp->m_child->m_value);
             }
         }
@@ -711,11 +747,23 @@ void ICG::translate_Exp(ASTNode *exp, const V &place)
     if (judge_condition_exp(exp)){
         Label lb1 = new_label();
         Label lb2 = new_label();
+        Instruction ins = Instruction(OpType::ASSI, 0, place);
+        appendCode(ins);
         appendCode(place.m_name + " := #0");
+
         translate_cond_Exp(exp, lb1, lb2);
+
+        ins = Instruction(OpType::LABEL, lb1.m_labelName);
+        appendCode(ins);
         appendCode("LABEL " + lb1.m_labelName + " :");
+
+        ins = Instruction(OpType::ASSI, 1, place);
+        appendCode(ins);
         appendCode(place.m_name + " := #1");
-        appendCode("LABEL" + lb2.m_labelName + " :");
+
+        ins = Instruction(OpType::LABEL, lb2.m_labelName);
+        appendCode(ins);
+        appendCode("LABEL " + lb2.m_labelName + " :");
     }
 
 }
@@ -742,4 +790,28 @@ std::string ICG::translate_token(std::string token)
         return "/";
     else if (token == "MINUS")
         return "-";
+}
+
+OpType::Type ICG::token_to_opType(std::string token)
+{
+    if (token == "LT")
+        return OpType::J_LT;
+    else if (token == "LE")
+        return OpType::J_LE;
+    else if (token == "GT")
+        return OpType::J_GT;
+    else if (token == "GE")
+        return OpType::J_GE;
+    else if (token == "NE")
+        return OpType::J_NE;
+    else if (token == "EQ")
+        return OpType::J_EQ;
+    else if (token == "PLUS")
+        return OpType::PLUS;
+    else if (token == "MUL")
+        return OpType::MUL;
+    else if (token == "DIV")
+        return OpType::DIV;
+    else if (token == "MINUS")
+        return OpType::MINUS;
 }

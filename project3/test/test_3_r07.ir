@@ -1,112 +1,66 @@
 FUNCTION gcd1 :
 PARAM v1
 PARAM v0
-t1 := v0
-t5 := v0
-t6 := v1
-t3 := t5 / t6
-t4 := v1
-t2 := t3 * t4
-v3 := t1 - t2
-t0 := v3
+t3 := v0 / v1
+t2 := t3 * v1
+v3 := v0 - t2
 LABEL lb_0 :
-t7 := v3
-t8 := #0
-IF t7 != t8 GOTO lb_1
+IF v3 != #0 GOTO lb_1
 GOTO lb_2
 LABEL lb_1 :
 v0 := v1
-t9 := v0
 v1 := v3
-t10 := v1
-t12 := v0
-t16 := v0
-t17 := v1
-t14 := t16 / t17
-t15 := v1
-t13 := t14 * t15
-v3 := t12 - t13
-t11 := v3
+t14 := v0 / v3
+t13 := t14 * v3
+v3 := v0 - t13
 GOTO lb_0
 LABEL lb_2 :
-v2 := v1
-t18 := v2
-t19 := v2
-RETURN t19
+RETURN v1
 FUNCTION gcd2 :
 PARAM v5
 PARAM v4
-v6 := #0
-t20 := v4
-t21 := v5
-IF t20 > t21 GOTO lb_3
+IF v4 > v5 GOTO lb_3
 GOTO lb_4
 LABEL lb_3 :
-t23 := v4
-t27 := v4
-t28 := v5
-t25 := t27 / t28
-t26 := v5
-t24 := t25 * t26
-v6 := t23 - t24
-t22 := v6
-t29 := v6
-t30 := #0
-IF t29 == t30 GOTO lb_6
+t25 := v4 / v5
+t24 := t25 * v5
+v6 := v4 - t24
+IF v6 == #0 GOTO lb_6
 GOTO lb_7
 LABEL lb_6 :
-t31 := v5
-RETURN t31
+RETURN v5
 GOTO lb_8
 LABEL lb_7 :
-t33 := v5
-t34 := v6
-ARG t33
-ARG t34
+ARG v5
+ARG v6
 t32 := CALL gcd2
 RETURN t32
 LABEL lb_8 :
-GOTO lb_5
+GOTO lb_11
 LABEL lb_4 :
-t36 := v5
-t40 := v5
-t41 := v4
-t38 := t40 / t41
-t39 := v4
-t37 := t38 * t39
-v6 := t36 - t37
-t35 := v6
-t42 := v6
-t43 := #0
-IF t42 == t43 GOTO lb_9
+t38 := v5 / v4
+t37 := t38 * v4
+v6 := v5 - t37
+IF v6 == #0 GOTO lb_9
 GOTO lb_10
 LABEL lb_9 :
-t44 := v4
-RETURN t44
+RETURN v4
 GOTO lb_11
 LABEL lb_10 :
-t46 := v4
-t47 := v6
-ARG t46
-ARG t47
+ARG v4
+ARG v6
 t45 := CALL gcd2
 RETURN t45
 LABEL lb_11 :
-LABEL lb_5 :
 FUNCTION main :
 READ v7
 READ v8
-t50 := v7
-t51 := v8
-ARG t50
-ARG t51
+ARG v7
+ARG v8
 t49 := CALL gcd1
 WRITE t49
-t54 := v7
-t55 := v8
-ARG t54
-ARG t55
+ARG v7
+ARG v8
 t53 := CALL gcd2
 WRITE t53
-t56 := #0
-RETURN t56
+RETURN #0
